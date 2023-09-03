@@ -41,7 +41,7 @@ void Rcxazair::gattc_event_handler(
       }
       ESP_LOGI(TAG, "[%s] got characteristic!",
               this->parent_->address_str().c_str());
-      auto status = esp_ble_gattc_register_for_notify(this->parent_->gattc_if, this->parent_->remote_bda, chr->handle);
+      auto status = esp_ble_gattc_register_for_notify(this->parent()->get_gattc_if(), this->parent()->get_remote_bda(), chr->handle);
       if (status) {
         ESP_LOGE(TAG, "[%s] esp_ble_gattc_register_for_notify failed, status=%d",
                 this->parent_->address_str().c_str(),
