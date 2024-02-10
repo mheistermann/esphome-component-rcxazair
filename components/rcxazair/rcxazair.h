@@ -28,6 +28,9 @@ class Rcxazair : public esphome::ble_client::BLEClientNode
   void set_co2_sensor(sensor::Sensor *s) { co2_sensor_ = s; }
   void set_tvoc_sensor(sensor::Sensor *s) { tvoc_sensor_ = s; }
   void set_hcho_sensor(sensor::Sensor *s) { hcho_sensor_ = s; }
+  void set_pmc_1_0_sensor(sensor::Sensor *s) { pmc_1_0_sensor_ = s; }
+  void set_pmc_2_5_sensor(sensor::Sensor *s) { pmc_2_5_sensor_ = s; }
+  void set_pmc_10_0_sensor(sensor::Sensor *s) { pmc_10_0_sensor_ = s; }
 
  protected:
   void handle_message(uint8_t *msg, uint16_t len);
@@ -37,6 +40,9 @@ class Rcxazair : public esphome::ble_client::BLEClientNode
   sensor::Sensor *co2_sensor_{nullptr};
   sensor::Sensor *tvoc_sensor_{nullptr};
   sensor::Sensor *hcho_sensor_{nullptr};
+  sensor::Sensor *pmc_1_0_sensor_{nullptr};
+  sensor::Sensor *pmc_2_5_sensor_{nullptr};
+  sensor::Sensor *pmc_10_0_sensor_{nullptr};
 };
 
 }  // namespace rcxazair

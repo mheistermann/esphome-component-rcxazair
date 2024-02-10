@@ -3,6 +3,7 @@ import esphome.config_validation as cv
 from esphome.components import sensor, ble_client
 from esphome.const import (
     CONF_ID,
+    STATE_CLASS_MEASUREMENT,
     #CONF_BATTERY_LEVEL,
     #DEVICE_CLASS_BATTERY,
     #ENTITY_CATEGORY_DIAGNOSTIC,
@@ -24,8 +25,22 @@ from esphome.const import (
     CONF_FORMALDEHYDE,
     UNIT_MICROGRAMS_PER_CUBIC_METER,
     ICON_CHEMICAL_WEAPON,
+
+    CONF_PM_1_0,
+    #CONF_PM_1_0UM,
+    DEVICE_CLASS_PM1,
+
+    CONF_PM_2_5,
+    #CONF_PM_2_5UM,
+    DEVICE_CLASS_PM25,
+
+    CONF_PM_10_0,
+    #CONF_PM_10_0UM,
+    DEVICE_CLASS_PM10,
+
 )
 
+ICON_MOLECULE = "mdi:molecule"
 CODEOWNERS = ["@mheistermann"]
 
 rcxazair_ns = cg.esphome_ns.namespace("rcxazair")
@@ -66,6 +81,27 @@ CONFIG_SCHEMA = (
                 icon=ICON_CHEMICAL_WEAPON,
                 accuracy_decimals=0,
             ),
+            cv.Optional(CONF_PM_1_0): sensor.sensor_schema(
+                unit_of_measurement=UNIT_MICROGRAMS_PER_CUBIC_METER,
+                icon=ICON_MOLECULE,
+                accuracy_decimals=0,
+                device_class=DEVICE_CLASS_PM1,
+                state_class=STATE_CLASS_MEASUREMENT
+            ),
+            cv.Optional(CONF_PM_2_5): sensor.sensor_schema(
+                unit_of_measurement=UNIT_MICROGRAMS_PER_CUBIC_METER,
+                icon=ICON_MOLECULE,
+                accuracy_decimals=0,
+                device_class=DEVICE_CLASS_PM25,
+                state_class=STATE_CLASS_MEASUREMENT
+            ),
+            cv.Optional(CONF_PM_10_0): sensor.sensor_schema(
+                unit_of_measurement=UNIT_MICROGRAMS_PER_CUBIC_METER,
+                icon=ICON_MOLECULE,
+                accuracy_decimals=0,
+                device_class=DEVICE_CLASS_PM10,
+                state_class=STATE_CLASS_MEASUREMENT
+            ),
         }
     )
     .extend(ble_client.BLE_CLIENT_SCHEMA)
@@ -100,4 +136,16 @@ def to_code(config):
     if CONF_HUMIDITY in config:
         sens = yield sensor.new_sensor(config[CONF_HUMIDITY])
         cg.add(var.set_relhum_sensor(sens))
+
+    if CONF_PM_1_0 in config:
+        sens = yield sensor.new_sensor(config[CONF_PM_1_0])
+        cg.add(var.set_pmc_1_0_sensor(sens))
+
+    if CONF_PM_2_5 in config:
+        sens = yield sensor.new_sensor(config[CONF_PM_2_5])
+        cg.add(var.set_pmc_2_5_sensor(sens))
+
+    if CONF_PM_10_0 in config:
+        sens = yield sensor.new_sensor(config[CONF_PM_10_0])
+        cg.add(var.set_pmc_10_0_sensor(sens))
 

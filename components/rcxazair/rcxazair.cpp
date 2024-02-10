@@ -112,6 +112,22 @@ void Rcxazair::handle_message(uint8_t *msg, uint16_t len)
                 this->hcho_sensor_->publish_state(hcho);
             }
             break;
+        case 0x23081007:
+            if (len < 10)
+                return;
+            if (this->pmc_1_0_sensor_) {
+                uint16_t pmc_1_0_ugm3 = u16(4);
+                this->pmc_1_0_sensor_->publish_state(pmc_1_0_ugm3);
+            }
+            if (this->pmc_2_5_sensor_) {
+                uint16_t pmc_2_5_ugm3 = u16(6);
+                this->pmc_2_5_sensor_->publish_state(pmc_2_5_ugm3);
+            }
+            if (this->pmc_10_0_sensor_) {
+                uint16_t pmc_10_0_ugm3 = u16(8);
+                this->pmc_10_0_sensor_->publish_state(pmc_10_0_ugm3);
+            }
+            break;
         default:
         ESP_LOGI(TAG, "[%s] Got unknown message type %x",
                 this->parent_->address_str().c_str(),
